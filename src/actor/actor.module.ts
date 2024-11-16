@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ActorService } from './actor.service';
 import { ActorController } from './actor.controller';
-import { Movie } from 'src/movie/movie.model';
 import { Actor, ActorSchema } from './actor.model';
 import { FilesModule } from 'src/files/files.module';
 import { MongooseModule } from '@nestjs/mongoose';

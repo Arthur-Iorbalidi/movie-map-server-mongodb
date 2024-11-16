@@ -11,7 +11,11 @@ import { Director, DirectorSchema } from 'src/director/director.model';
   controllers: [MovieController],
   providers: [MovieService],
   imports: [
-    MongooseModule.forFeature([{ name: Movie.name, schema: MovieSchema }, { name: Actor.name, schema: ActorSchema }, { name: Director.name, schema: DirectorSchema },]),
+    MongooseModule.forFeature([
+      { name: Movie.name, schema: MovieSchema },
+      { name: Actor.name, schema: ActorSchema },
+      { name: Director.name, schema: DirectorSchema },
+    ]),
     FilesModule,
   ],
   exports: [MovieService],

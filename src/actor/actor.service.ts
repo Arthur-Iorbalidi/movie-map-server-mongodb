@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateActorDto } from './dto/create-actor.dto';
-import { Movie } from 'src/movie/movie.model';
-import { Op } from 'sequelize';
 import { FilesService } from 'src/files/files.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Actor } from './actor.model';
@@ -62,17 +60,24 @@ export class ActorService {
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
-  
-      if (parsedFilters.heightMin !== undefined || parsedFilters.heightMax !== undefined) {
+
+      if (
+        parsedFilters.heightMin !== undefined ||
+        parsedFilters.heightMax !== undefined
+      ) {
         query.height = {};
-        if (parsedFilters.heightMin !== undefined) query.height.$gte = parsedFilters.heightMin;
-        if (parsedFilters.heightMax !== undefined) query.height.$lte = parsedFilters.heightMax;
+        if (parsedFilters.heightMin !== undefined)
+          query.height.$gte = parsedFilters.heightMin;
+        if (parsedFilters.heightMax !== undefined)
+          query.height.$lte = parsedFilters.heightMax;
       }
-  
+
       if (parsedFilters.birthdayMin || parsedFilters.birthdayMax) {
         query.birthday = {};
-        if (parsedFilters.birthdayMin) query.birthday.$gte = new Date(parsedFilters.birthdayMin);
-        if (parsedFilters.birthdayMax) query.birthday.$lte = new Date(parsedFilters.birthdayMax);
+        if (parsedFilters.birthdayMin)
+          query.birthday.$gte = new Date(parsedFilters.birthdayMin);
+        if (parsedFilters.birthdayMax)
+          query.birthday.$lte = new Date(parsedFilters.birthdayMax);
       }
     }
 
@@ -99,8 +104,8 @@ export class ActorService {
 
   async getById(id: number) {
     const actor = await this.actorRepository
-    .findOne({ _id: id })
-    .populate('movies');
+      .findOne({ _id: id })
+      .populate('movies');
 
     if (!actor) {
       throw new NotFoundException(`Actor not found`);

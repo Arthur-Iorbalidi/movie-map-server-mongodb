@@ -11,7 +11,10 @@ import { Movie, MovieSchema } from 'src/movie/movie.model';
   controllers: [UserController],
   providers: [UserService],
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, {name: Movie.name, schema: MovieSchema}]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Movie.name, schema: MovieSchema },
+    ]),
     forwardRef(() => AuthModule),
     MovieModule,
   ],

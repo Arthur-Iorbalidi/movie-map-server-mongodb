@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Movie } from './movie.model';
 import { CreateMovieDto } from './dto/create-movie.dto';
-import { Op } from 'sequelize';
 import { FilesService } from 'src/files/files.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -80,9 +79,9 @@ export class MovieService {
 
   async getMovieById(id: string) {
     const movie = await this.movieRepository
-    .findOne({ _id: id })
-    .populate('directors')
-    .populate('actors');
+      .findOne({ _id: id })
+      .populate('directors')
+      .populate('actors');
 
     if (!movie) {
       throw new NotFoundException('Movie not found');

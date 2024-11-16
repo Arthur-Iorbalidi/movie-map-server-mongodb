@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Director } from './director.model';
 import { CreateDirectorDto } from './dto/create-director.dto';
-import { Movie } from 'src/movie/movie.model';
-import { Op } from 'sequelize';
 import { FilesService } from 'src/files/files.service';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -59,11 +57,11 @@ export class DirectorService {
     }
 
     const directors = await this.directorRepository
-    .find(searchFilter)
-    .populate('movies')
-    .sort({ [sortBy]: sortOrderValue })
-    .skip(skip)
-    .limit(limit);
+      .find(searchFilter)
+      .populate('movies')
+      .sort({ [sortBy]: sortOrderValue })
+      .skip(skip)
+      .limit(limit);
 
     const total = await this.directorRepository.countDocuments(searchFilter);
 
@@ -80,8 +78,8 @@ export class DirectorService {
 
   async getById(id: string) {
     const director = await this.directorRepository
-    .findOne({ _id: id })
-    .populate('movies');
+      .findOne({ _id: id })
+      .populate('movies');
 
     if (!director) {
       throw new NotFoundException(`Director not found`);

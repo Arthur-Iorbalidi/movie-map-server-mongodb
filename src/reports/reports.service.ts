@@ -10,7 +10,9 @@ export class ReportsService {
   constructor(private userService: UserService) {}
 
   async generateFavoritesMoviesPdf(userId: string, res: Response) {
-    const movies = await this.userService.getFavoritesMovies(userId) as unknown as Movie[];
+    const movies = (await this.userService.getFavoritesMovies(
+      userId,
+    )) as unknown as Movie[];
 
     if (!movies || movies.length === 0) {
       throw new BadRequestException('No favorite movies found');
@@ -84,7 +86,9 @@ export class ReportsService {
   }
 
   async generateFavoritesMoviesDocx(userId: string, res: Response) {
-    const movies = await this.userService.getFavoritesMovies(userId) as unknown as Movie[];
+    const movies = (await this.userService.getFavoritesMovies(
+      userId,
+    )) as unknown as Movie[];
 
     if (!movies || movies.length === 0) {
       throw new BadRequestException('No favorite movies found');

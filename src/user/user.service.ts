@@ -41,12 +41,10 @@ export class UserService {
   }
 
   async getUserByEmail(email: string) {
-    const user = await this.userRepository
-      .findOne({ email })
-      .populate({
-        path: 'movies',
-        select: 'id',
-      });
+    const user = await this.userRepository.findOne({ email }).populate({
+      path: 'movies',
+      select: 'id',
+    });
 
     return user;
   }
@@ -64,7 +62,10 @@ export class UserService {
         throw new UnauthorizedException({ message: 'Incorrect password' });
       }
 
-      const passwordEquals = await bcrypt.compare(dto.oldPassword, user.password);
+      const passwordEquals = await bcrypt.compare(
+        dto.oldPassword,
+        user.password,
+      );
 
       if (!passwordEquals) {
         throw new UnauthorizedException({ message: 'Incorrect password' });
@@ -82,7 +83,9 @@ export class UserService {
     }
 
     if (dto.email && dto.email !== user.email) {
-      const existingUser = await this.userRepository.findOne({ email: dto.email });
+      const existingUser = await this.userRepository.findOne({
+        email: dto.email,
+      });
 
       if (existingUser) {
         throw new ConflictException({ message: 'Email is already taken' });
@@ -92,10 +95,13 @@ export class UserService {
     const updatedUserEntity = await this.userRepository.findOneAndUpdate(
       { _id: id },
       { $set: updatedUser },
-      { new: true }
+      { new: true },
     );
 
-    const payload = { email: updatedUserEntity.email, id: updatedUserEntity._id };
+    const payload = {
+      email: updatedUserEntity.email,
+      id: updatedUserEntity._id,
+    };
 
     const newToken = this.jwtService.sign(payload);
 
@@ -107,8 +113,12 @@ export class UserService {
       throw new BadRequestException('userId or movieId not provided');
     }
 
-    const user = await this.userRepository.findOne({ _id: new mongoose.Types.ObjectId(userId) });
-    const movie = await this.movieRepository.findOne({ _id: new mongoose.Types.ObjectId(movieId) });
+    const user = await this.userRepository.findOne({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
+    const movie = await this.movieRepository.findOne({
+      _id: new mongoose.Types.ObjectId(movieId),
+    });
 
     if (user && movie) {
       if (!user.movies.includes(movie._id)) {
@@ -128,7 +138,9 @@ export class UserService {
       throw new BadRequestException('userId or movieId not provided');
     }
 
-    const user = await this.userRepository.findOne({ _id: new mongoose.Types.ObjectId(userId) });
+    const user = await this.userRepository.findOne({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -142,7 +154,7 @@ export class UserService {
       await user.save();
       return { message: 'Movie removed from favorites', user };
     } else {
-      throw new NotFoundException('Movie not found in user\'s favorites');
+      throw new NotFoundException("Movie not found in user's favorites");
     }
   }
 

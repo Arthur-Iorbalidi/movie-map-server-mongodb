@@ -9,7 +9,9 @@ import { MongooseModule } from '@nestjs/mongoose';
   controllers: [DirectorController],
   providers: [DirectorService],
   imports: [
-    MongooseModule.forFeature([{ name: Director.name, schema: DirectorSchema }]),
+    MongooseModule.forFeature([
+      { name: Director.name, schema: DirectorSchema },
+    ]),
     FilesModule,
   ],
   exports: [DirectorService],
