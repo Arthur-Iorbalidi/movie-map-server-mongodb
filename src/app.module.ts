@@ -8,6 +8,8 @@ import { FilesModule } from './files/files.module';
 import { ReportsModule } from './reports/reports.module';
 import * as path from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ActorModule } from './actor/actor.module';
+import { DirectorModule } from './director/director.module';
 
 @Module({
   controllers: [],
@@ -21,9 +23,9 @@ import { MongooseModule } from '@nestjs/mongoose';
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     UserModule,
-    // MovieModule,
-    // ActorModule,
-    // DirectorModule,
+    MovieModule,
+    ActorModule,
+    DirectorModule,
     AuthModule,
     FilesModule,
     ReportsModule,

@@ -22,6 +22,12 @@ export class Movie {
 
   @Prop({ required: true })
   budget: string;
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Actor' })
+  actors: mongoose.Types.ObjectId[];
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Director' })
+  directors: mongoose.Types.ObjectId[];
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

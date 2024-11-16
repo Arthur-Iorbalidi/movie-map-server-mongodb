@@ -10,14 +10,14 @@ export class ReportsController {
   @UseGuards(JwtAuthGuard)
   @Get('favorites/movies/pdf')
   async getFavoritesMoviesPdf(@Res() res: Response, @Req() req) {
-    const userId: number = req.user.id;
-    // return this.reportsService.generateFavoritesMoviesPdf(userId, res);
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesMoviesPdf(userId, res);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('favorites/movies/docx')
   async getFavoritesMoviesDocx(@Res() res: Response, @Req() req) {
-    const userId: number = req.user.id;
-    // return this.reportsService.generateFavoritesMoviesDocx(userId, res);
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesMoviesDocx(userId, res);
   }
 }

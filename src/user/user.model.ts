@@ -19,6 +19,12 @@ export class User {
 
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Movie' })
   movies: mongoose.Types.ObjectId[];
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Actor' })
+  actors: mongoose.Types.ObjectId[];
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Directors' })
+  directors: mongoose.Types.ObjectId[];
   
   get id(): string {
     return this._id.toString();
@@ -34,5 +40,4 @@ export interface User extends Document {
   email: string;
   password: string;
   movies: mongoose.Types.ObjectId[];
-  id: string;
 }

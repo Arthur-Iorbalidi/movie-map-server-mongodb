@@ -8,13 +8,13 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { MovieService } from './movie.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import { DirectorService } from './director.service';
+import { CreateDirectorDto } from './dto/create-director.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('movies')
-export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+@Controller('directors')
+export class DirectorController {
+  constructor(private readonly directorService: DirectorService) {}
 
   @Get()
   getAll(
@@ -24,7 +24,7 @@ export class MovieController {
     @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
     @Query('search') search?: string,
   ) {
-    return this.movieService.getAllMovies({
+    return this.directorService.getAll({
       page,
       limit,
       sortBy,
@@ -35,12 +35,15 @@ export class MovieController {
 
   @Get(':id')
   getById(@Param('id') id: string) {
-    return this.movieService.getMovieById(id);
+    return this.directorService.getById(id);
   }
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  createMovie(@Body() movieDto: CreateMovieDto, @UploadedFile() image?) {
-    return this.movieService.createMovie(movieDto, image);
+  createDirector(
+    @Body() directorDto: CreateDirectorDto,
+    @UploadedFile() image?,
+  ) {
+    return this.directorService.createDirector(directorDto, image);
   }
 }

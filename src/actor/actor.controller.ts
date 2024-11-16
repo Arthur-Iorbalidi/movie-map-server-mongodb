@@ -8,13 +8,13 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { MovieService } from './movie.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import { ActorService } from './actor.service';
+import { CreateActorDto } from './dto/create-actor.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('movies')
-export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+@Controller('actors')
+export class ActorController {
+  constructor(private readonly actorService: ActorService) {}
 
   @Get()
   getAll(
@@ -23,24 +23,26 @@ export class MovieController {
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
     @Query('search') search?: string,
+    @Query('filters') filters?: string,
   ) {
-    return this.movieService.getAllMovies({
+    return this.actorService.getAll({
       page,
       limit,
       sortBy,
       sortOrder,
       search,
+      filters,
     });
   }
 
   @Get(':id')
-  getById(@Param('id') id: string) {
-    return this.movieService.getMovieById(id);
+  getById(@Param('id') id: number) {
+    return this.actorService.getById(id);
   }
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  createMovie(@Body() movieDto: CreateMovieDto, @UploadedFile() image?) {
-    return this.movieService.createMovie(movieDto, image);
+  createActor(@Body() directorDto: CreateActorDto, @UploadedFile() image?) {
+    return this.actorService.createActor(directorDto, image);
   }
 }

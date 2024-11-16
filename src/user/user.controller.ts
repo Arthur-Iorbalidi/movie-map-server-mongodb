@@ -52,13 +52,8 @@ export class UserController {
     @Req() req,
   ) {
     const userId = req.user.id;
-    const parsedId = parseInt(id, 10);
 
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('Invalid user ID');
-    }
-
-    if (userId !== parsedId) {
+    if (userId !== id) {
       throw new ForbiddenException('You can update only your own profile');
     }
 

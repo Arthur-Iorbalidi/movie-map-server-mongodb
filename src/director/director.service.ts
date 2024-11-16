@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Movie } from './movie.model';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import { Director } from './director.model';
+import { CreateDirectorDto } from './dto/create-director.dto';
+import { Movie } from 'src/movie/movie.model';
 import { Op } from 'sequelize';
 import { FilesService } from 'src/files/files.service';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
-interface GetAllMoviesOptions {
+interface GetAllDirectorsOptions {
   page?: number;
   limit?: number;
   sortBy?: string;
@@ -15,32 +16,32 @@ interface GetAllMoviesOptions {
 }
 
 @Injectable()
-export class MovieService {
+export class DirectorService {
   constructor(
-    @InjectModel(Movie.name) private movieRepository: Model<Movie>,
+    @InjectModel(Director.name) private directorRepository: Model<Director>,
     private fileService: FilesService,
   ) {}
 
-  async createMovie(dto: CreateMovieDto, image?: any) {
+  async createDirector(dto: CreateDirectorDto, image?: any) {
     let fileName: string | null = null;
 
     if (image) {
       fileName = await this.fileService.createImage(image);
     }
 
-    const movie = await this.movieRepository.create({
+    const director = await this.directorRepository.create({
       ...dto,
       image: fileName,
     });
 
-    return movie;
+    return director;
   }
 
-  async getAllMovies(options: GetAllMoviesOptions) {
+  async getAll(options: GetAllDirectorsOptions) {
     const {
       page = 1,
       limit = 3,
-      sortBy = 'title',
+      sortBy = 'name',
       sortOrder = 'ASC',
       search,
     } = options;
@@ -57,18 +58,17 @@ export class MovieService {
       ];
     }
 
-    const movies = await this.movieRepository
-      .find(searchFilter)
-      .populate('directors')
-      .populate('actors')
-      .sort({ [sortBy]: sortOrderValue })
-      .skip(skip)
-      .limit(limit);
+    const directors = await this.directorRepository
+    .find(searchFilter)
+    .populate('movies')
+    .sort({ [sortBy]: sortOrderValue })
+    .skip(skip)
+    .limit(limit);
 
-    const total = await this.movieRepository.countDocuments(searchFilter);
+    const total = await this.directorRepository.countDocuments(searchFilter);
 
     return {
-      data: movies,
+      data: directors,
       pagination: {
         total,
         current_page: page,
@@ -78,16 +78,15 @@ export class MovieService {
     };
   }
 
-  async getMovieById(id: string) {
-    const movie = await this.movieRepository
+  async getById(id: string) {
+    const director = await this.directorRepository
     .findOne({ _id: id })
-    .populate('directors')
-    .populate('actors');
+    .populate('movies');
 
-    if (!movie) {
-      throw new NotFoundException('Movie not found');
+    if (!director) {
+      throw new NotFoundException(`Director not found`);
     }
 
-    return movie;
+    return director;
   }
 }
