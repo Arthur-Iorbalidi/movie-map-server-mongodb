@@ -70,8 +70,8 @@ export class DirectorService {
       data: directors,
       pagination: {
         total,
-        current_page: page,
-        limit,
+        current_page: Number(page),
+        limit: Number(limit),
         total_pages: Math.ceil(total / limit),
       },
     };

@@ -95,8 +95,8 @@ export class ActorService {
       data: actors,
       pagination: {
         total,
-        current_page: page,
-        limit: limit,
+        current_page: Number(page),
+        limit: Number(limit),
         total_pages: Math.ceil(total / limit),
       },
     };
