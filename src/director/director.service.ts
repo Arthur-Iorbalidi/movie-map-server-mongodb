@@ -44,26 +44,27 @@ export class DirectorService {
       search,
     } = options;
 
-    const skip = (page - 1) * limit;
+    const offset = (page - 1) * limit;
     const sortOrderValue = sortOrder === 'ASC' ? 1 : -1;
 
-    const searchFilter: any = {};
+    const query: any = {};
 
     if (search) {
-      searchFilter.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { genre: { $regex: search, $options: 'i' } },
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { surname: { $regex: search, $options: 'i' } },
+        { placeOfBirth: { $regex: search, $options: 'i' } },
       ];
     }
 
     const directors = await this.directorRepository
-      .find(searchFilter)
+      .find(query)
       .populate('movies')
       .sort({ [sortBy]: sortOrderValue })
-      .skip(skip)
+      .skip(offset)
       .limit(limit);
 
-    const total = await this.directorRepository.countDocuments(searchFilter);
+    const total = await this.directorRepository.countDocuments(query);
 
     return {
       data: directors,

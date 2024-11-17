@@ -36,13 +36,13 @@ export class ActorController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
+  getById(@Param('id') id: string) {
     return this.actorService.getById(id);
   }
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  createActor(@Body() directorDto: CreateActorDto, @UploadedFile() image?) {
-    return this.actorService.createActor(directorDto, image);
+  createActor(@Body() actorDto: CreateActorDto, @UploadedFile() image?) {
+    return this.actorService.createActor(actorDto, image);
   }
 }

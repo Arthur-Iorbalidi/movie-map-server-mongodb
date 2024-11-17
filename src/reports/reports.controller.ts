@@ -20,4 +20,32 @@ export class ReportsController {
     const userId: string = req.user.id;
     return this.reportsService.generateFavoritesMoviesDocx(userId, res);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('favorites/actors/pdf')
+  async getFavoritesActorsPdf(@Res() res: Response, @Req() req) {
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesActorsPdf(userId, res);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('favorites/actors/docx')
+  async getFavoritesActorsDocx(@Res() res: Response, @Req() req) {
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesActorsDocx(userId, res);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('favorites/directors/pdf')
+  async getFavoritesDirectorsPdf(@Res() res: Response, @Req() req) {
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesDirectorsPdf(userId, res);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('favorites/directors/docx')
+  async getFavoritesDirectorsDocx(@Res() res: Response, @Req() req) {
+    const userId: string = req.user.id;
+    return this.reportsService.generateFavoritesDirectorsDocx(userId, res);
+  }
 }

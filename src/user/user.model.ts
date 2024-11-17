@@ -23,7 +23,7 @@ export class User extends Document {
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Actor' })
   actors: mongoose.Types.ObjectId[];
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Directors' })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Director' })
   directors: mongoose.Types.ObjectId[];
 }
 

@@ -102,7 +102,7 @@ export class ActorService {
     };
   }
 
-  async getById(id: number) {
+  async getById(id: string) {
     const actor = await this.actorRepository
       .findOne({ _id: id })
       .populate('movies');
